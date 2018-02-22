@@ -1,0 +1,58 @@
+{
+  "name": "gc",
+  "version": "1.0.0",
+  "description": "Gestione Casa",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc --rootDir ./src/",
+    "start": "ts-node src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deggesim/gc.git"
+  },
+  "keywords": [
+    "movielistr",
+    "movies",
+    "listr",
+    "crud"
+  ],
+  "dependencies": {
+    "koa": "^2.2.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-logger": "^3.0.0",
+    "koa-router": "^7.1.1",
+    "mysql": "^2.13.0",
+    "reflect-metadata": "^0.1.10",
+    "typeorm": "^0.0.11",
+    "typescript-ioc": "^0.4.1"
+  },
+  "devDependencies": {
+    "@types/chai": "^3.5.2",
+    "@types/koa": "^2.0.39",
+    "@types/koa-bodyparser": "^3.0.23",
+    "@types/koa-logger": "^2.0.2",
+    "@types/koa-router": "^7.0.22",
+    "@types/mocha": "^2.2.41",
+    "@types/node": "^7.0.18",
+    "@types/shelljs": "^0.7.1",
+    "@types/sinon": "^2.2.2",
+    "@types/sinon-chai": "^2.7.27",
+    "@types/supertest": "^2.0.0",
+    "chai": "^3.5.0",
+    "mocha": "^3.4.1",
+    "shelljs": "^0.7.7",
+    "sinon": "^2.2.0",
+    "sinon-chai": "^2.10.0",
+    "supertest": "^3.0.0",
+    "ts-mockito": "^2.0.0",
+    "ts-node": "^3.0.4",
+    "typescript": "^2.3.2"
+  },
+  "author": "Simone De Gennaro",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/deggesim/gc/issues"
+  },
+  "homepage": "https://github.com/deggesim/gc#readme"
+}
