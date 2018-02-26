@@ -6,7 +6,7 @@ export default class TipoSpesa {
     @PrimaryGeneratedColumn()
     private id!: number;
 
-    @Column()
+    @Column({ nullable: false })
     private descrizione!: string;
 
     public get $id(): number {

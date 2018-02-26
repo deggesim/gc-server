@@ -8,16 +8,16 @@ export default class Andamento {
     @PrimaryGeneratedColumn()
     private id!: number;
 
-    @Column("date")
+    @Column({ nullable: false })
     private giorno!: Date;
 
-    @Column()
+    @Column({ nullable: false })
     private descrizione!: string;
 
-    @Column("decimal")
+    @Column("decimal", { nullable: false })
     private costo!: number;
 
-    @ManyToOne((type) => TipoSpesa, { cascadeInsert: false, cascadeRemove: true, nullable: false })
+    @ManyToOne((type) => TipoSpesa, { nullable: false })
     @JoinColumn({ name: "tipo_spesa_id" })
     private tipoSpesa!: TipoSpesa;
 
