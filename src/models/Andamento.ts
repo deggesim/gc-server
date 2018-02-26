@@ -8,13 +8,13 @@ export default class Andamento {
     @PrimaryGeneratedColumn()
     private id!: number;
 
-    @Column()
+    @Column("date")
     private giorno!: Date;
 
     @Column()
     private descrizione!: string;
 
-    @Column()
+    @Column("decimal")
     private costo!: number;
 
     @ManyToOne((type) => TipoSpesa, { cascadeInsert: false, cascadeRemove: true, nullable: false })

@@ -10,21 +10,16 @@ export default class AndamentoRepository extends IRepository {
 
     public async getAllAndamentos(): Promise<Andamento[]> {
         return this.getAndamentoRepository()
-            .find({
-                alias: "andamento",
-                leftJoinAndSelect: {
-                    tipoSpesa: "andamento.tipoSpesa",
-                },
-            });
+            .createQueryBuilder("andamento")
+            .innerJoinAndSelect("andamento.tipoSpesa", "tipoSpesa")
+            .orderBy("giorno", "DESC")
+            .getMany();
     }
 
     public async findAndamentoById(id: number): Promise<Andamento> {
         const result = await this.getAndamentoRepository()
             .findOneById(id, {
-                alias: "andamento",
-                leftJoinAndSelect: {
-                    director: "andamento.tipoSpesa",
-                },
+                relations: ["tipoSpesa"],
             });
         if (!result) {
             throw new EntityNotFoundError();
@@ -37,7 +32,7 @@ export default class AndamentoRepository extends IRepository {
         if (!director) {
             throw new BadRequestEntity("No tipoSpesa found for this ID: " + andamento.$tipoSpesa.$id);
         }
-        return this.getAndamentoRepository().persist(andamento);
+        return this.getAndamentoRepository().save(andamento);
     }
 
     public async deleteAndamento(id: number): Promise<void> {

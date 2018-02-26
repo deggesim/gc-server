@@ -1,4 +1,4 @@
-import { getEntityManager } from 'typeorm';
+import { getManager } from 'typeorm';
 
 import Andamento from '../models/Andamento';
 import TipoSpesa from '../models/TipoSpesa';
@@ -6,11 +6,11 @@ import TipoSpesa from '../models/TipoSpesa';
 export default abstract class IRepository {
 
     protected getTipoSpesaRepository() {
-        return getEntityManager().getRepository(TipoSpesa);
+        return getManager().getRepository(TipoSpesa);
     }
 
     protected getAndamentoRepository() {
-        return getEntityManager().getRepository(Andamento);
+        return getManager().getRepository(Andamento);
     }
 
 }
