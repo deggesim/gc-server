@@ -1,23 +1,25 @@
-import * as Koa from "koa";
-import * as bodyParser from "koa-bodyparser";
-import * as logger from "koa-logger";
-import * as Router from "koa-router";
-import "reflect-metadata";
+import 'reflect-metadata';
 
-import { createConnection } from "typeorm";
-import { Inject } from "typescript-ioc";
+import * as Koa from 'koa';
+import * as bodyParser from 'koa-bodyparser';
+import * as logger from 'koa-logger';
+import * as Router from 'koa-router';
+import { createConnection } from 'typeorm';
+import { Inject } from 'typescript-ioc';
 
-import TipoSpesa from "./models/TipoSpesa";
-import Andamento from "./models/Andamento";
-import Route from "./models/Route";
-import TipoSpesaRoutes from "./routes/TipoSpesaRoutes";
-import AndamentoRoutes from "./routes/AndamentoRoutes";
+import Andamento from './models/Andamento';
+import TipoSpesa from './models/TipoSpesa';
+import AndamentoRoutes from './routes/AndamentoRoutes';
+import StatisticheRoutes from './routes/StatisticheRoutes';
+import TipoSpesaRoutes from './routes/TipoSpesaRoutes';
 
 export default class GestioneCasa {
 
     constructor(
         @Inject private andamentoRoutes: AndamentoRoutes,
-        @Inject private tipoSpesaRoutes: TipoSpesaRoutes) { }
+        @Inject private tipoSpesaRoutes: TipoSpesaRoutes,
+        @Inject private statisticheRoutes: StatisticheRoutes
+    ) { }
 
     private async createApp() {
         await createConnection({
@@ -42,6 +44,7 @@ export default class GestioneCasa {
 
         this.andamentoRoutes.register(router);
         this.tipoSpesaRoutes.register(router);
+        this.statisticheRoutes.register(router);
 
         app.use(logger());
         app.use(bodyParser());

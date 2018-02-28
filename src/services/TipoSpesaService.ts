@@ -17,23 +17,4 @@ export default class TipoSpesaService {
     public async findAll(): Promise<TipoSpesa[]> {
         return this.tipoSpesaRepository.getAllTipoSpesas();
     }
-
-    // public async save(director: TipoSpesa): Promise<TipoSpesa> {
-    //     return this.tipoSpesaRepository.saveTipoSpesa(director);
-    // }
-
-    // public async update(director: TipoSpesa) {
-    //     try {
-    //         await this.tipoSpesaRepository.findTipoSpesaById(director.$id);
-    //         return this.tipoSpesaRepository.saveTipoSpesa(director);
-    //     } catch (e) {
-    //         if (e instanceof EntityNotFoundError) {
-    //             throw new BadRequestEntity("The given tipoSpesa does not exist yet.");
-    //         }
-    //     }
-    // }
-
-    // public async delete(directorId: number) {
-    //     return this.tipoSpesaRepository.deleteTipoSpesaWithId(directorId);
-    // }
 }
