@@ -62,21 +62,23 @@ export default class AndamentoRepository extends IRepository {
     // statistiche
     public async speseFrequenti(interval: Interval): Promise<Statistica> {
         let whereCondition = '';
+        console.log(interval);
+
         switch (interval) {
             case Interval.mese:
-                whereCondition = "WHERE giorno > DATE_SUB(NOW(), INTERVAL 1 MONTH)";
+                whereCondition = "WHERE giorno > NOW() - interval '1 MONTH'";
                 break;
             case Interval.anno:
-                whereCondition = "WHERE giorno > DATE_SUB(NOW(), INTERVAL 1 YEAR)";
+                whereCondition = "WHERE giorno > NOW() - interval '1 YEAR'";
                 break;
             default:
                 break;
         }
         return this.getAndamentoRepository()
             .query(`SELECT ts.descrizione AS name, SUM(a.costo) AS value
-                    FROM andamento a JOIN tipo_spesa ts ON a.tipo_spesa_id = ts.id
+                    FROM gc.andamento a JOIN gc.tipo_spesa ts ON a.tipo_spesa_id = ts.id
                     ${whereCondition}
-                    GROUP BY a.tipo_spesa_id
+                    GROUP BY ts.id, ts.descrizione
                     ORDER BY value DESC
             `);
     }
@@ -84,14 +86,14 @@ export default class AndamentoRepository extends IRepository {
     public async spesaMensile(): Promise<Statistica> {
         return this.getAndamentoRepository()
             .query(`SELECT * FROM (
-                        SELECT DATE_FORMAT(giorno,'%Y%m') mese, UCASE(DATE_FORMAT(giorno,'%M %Y')) name, SUM(costo) AS value
-                        FROM andamento
+                        SELECT to_char(giorno, 'YYYYMM') as name, SUM(costo) AS value
+                        FROM gc.andamento
                         WHERE tipo_spesa_id = 1
-                        GROUP BY mese, name
-                        ORDER BY mese DESC
+                        GROUP BY name
+                        ORDER BY name DESC
                         LIMIT 24
                     ) rev
-                    ORDER BY mese
+                    ORDER BY name
             `);
     }
 

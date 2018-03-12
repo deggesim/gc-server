@@ -4,6 +4,7 @@ import * as Koa from 'koa';
 import * as bodyParser from 'koa-bodyparser';
 import * as logger from 'koa-logger';
 import * as Router from 'koa-router';
+import * as PostgressConnectionStringParser from 'pg-connection-string';
 import { createConnection } from 'typeorm';
 import { Inject } from 'typescript-ioc';
 
@@ -22,17 +23,20 @@ export default class GestioneCasa {
     ) { }
 
     private async createApp() {
+        const env = process.env;
+        const connectionOptions = PostgressConnectionStringParser.parse(<string>process.env.DATABASE_URL);
+
         await createConnection({
-            type: "mysql",
-            host: "localhost",
-            port: 3306,
-            username: "root",
-            password: "sabina",
-            database: "gc",
+            type: "postgres",
+            host: <string>connectionOptions.host,
+            port: <number>connectionOptions.port || 5432,
+            username: <string>connectionOptions.user,
+            password: <string>connectionOptions.password,
+            database: <string>connectionOptions.database,
+            schema: "gc",
             entities: [
                 Andamento, TipoSpesa,
             ],
-            synchronize: true,
             logging: true
         });
 
