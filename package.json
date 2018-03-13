@@ -2,6 +2,10 @@
   "name": "gc",
   "version": "1.0.0",
   "description": "Gestione Casa",
+  "engines": {
+    "node": "8.9.4",
+    "npm": "5.6.0"
+  },
   "main": "index.js",
   "scripts": {
     "build": "tsc --rootDir ./src/",
