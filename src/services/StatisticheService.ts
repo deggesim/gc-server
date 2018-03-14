@@ -18,4 +18,12 @@ export default class StatisticheService {
     public async spesaMensile(): Promise<Statistica> {
         return this.andamentoRepository.spesaMensile();
     }
+
+    public async carburanteMensile(): Promise<Statistica> {
+        return this.andamentoRepository.carburanteMensile();
+    }
+
+    public async bollettaMensile(): Promise<Statistica> {
+        return this.andamentoRepository.bollettaMensile();
+    }
 }

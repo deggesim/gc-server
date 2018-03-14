@@ -91,7 +91,35 @@ export default class AndamentoRepository extends IRepository {
                         WHERE tipo_spesa_id = 1
                         GROUP BY name
                         ORDER BY name DESC
-                        LIMIT 24
+                        LIMIT 48
+                    ) rev
+                    ORDER BY name
+            `);
+    }
+
+    public async carburanteMensile(): Promise<Statistica> {
+        return this.getAndamentoRepository()
+            .query(`SELECT * FROM (
+                        SELECT to_char(giorno, 'YYYYMM') as name, SUM(costo) AS value
+                        FROM gc.andamento
+                        WHERE tipo_spesa_id = 2
+                        GROUP BY name
+                        ORDER BY name DESC
+                        LIMIT 48
+                    ) rev
+                    ORDER BY name
+            `);
+    }
+
+    public async bollettaMensile(): Promise<Statistica> {
+        return this.getAndamentoRepository()
+            .query(`SELECT * FROM (
+                        SELECT to_char(giorno, 'YYYYMM') as name, SUM(costo) AS value
+                        FROM gc.andamento
+                        WHERE tipo_spesa_id = 3
+                        GROUP BY name
+                        ORDER BY name DESC
+                        LIMIT 48
                     ) rev
                     ORDER BY name
             `);

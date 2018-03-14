@@ -17,4 +17,12 @@ export default class StatisticheController {
     public async spesaMensile(ctx: IRouterContext) {
         ctx.body = await this.statisticheService.spesaMensile();
     }
+
+    public async carburanteMensile(ctx: IRouterContext) {
+        ctx.body = await this.statisticheService.carburanteMensile();
+    }
+
+    public async bollettaMensile(ctx: IRouterContext) {
+        ctx.body = await this.statisticheService.bollettaMensile();
+    }
 }

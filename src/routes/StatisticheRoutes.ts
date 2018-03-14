@@ -17,6 +17,8 @@ export default class AndamentoRoutes extends IRoutes {
         return [
             Route.newRoute("/statistiche/spese-frequenti/:interval", "get", (ctx: IRouterContext) => this.statisticheController.speseFrequenti(ctx)),
             Route.newRoute("/statistiche/spesa-mensile/", "get", (ctx: IRouterContext) => this.statisticheController.spesaMensile(ctx)),
+            Route.newRoute("/statistiche/carburante-mensile/", "get", (ctx: IRouterContext) => this.statisticheController.carburanteMensile(ctx)),
+            Route.newRoute("/statistiche/bolletta-mensile/", "get", (ctx: IRouterContext) => this.statisticheController.bollettaMensile(ctx)),
         ];
     }
 }
