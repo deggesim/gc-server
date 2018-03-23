@@ -62,8 +62,6 @@ export default class AndamentoRepository extends IRepository {
     // statistiche
     public async speseFrequenti(interval: Interval): Promise<Statistica> {
         let whereCondition = '';
-        console.log(interval);
-
         switch (interval) {
             case Interval.mese:
                 whereCondition = "WHERE giorno > NOW() - interval '1 MONTH'";
@@ -83,46 +81,94 @@ export default class AndamentoRepository extends IRepository {
             `);
     }
 
-    public async spesaMensile(): Promise<Statistica> {
-        return this.getAndamentoRepository()
-            .query(`SELECT * FROM (
-                        SELECT to_char(giorno, 'YYYYMM') as name, SUM(costo) AS value
-                        FROM gc.andamento
-                        WHERE tipo_spesa_id = 1
-                        GROUP BY name
-                        ORDER BY name DESC
-                        LIMIT 48
-                    ) rev
-                    ORDER BY name
-            `);
+    public async spesa(interval: Interval): Promise<Statistica> {
+        let query = '';
+        switch (interval) {
+            case Interval.mese:
+                query = `SELECT * FROM (
+                    SELECT to_char(giorno, 'YYYYMM') as name, SUM(costo) AS value
+                    FROM gc.andamento
+                    WHERE tipo_spesa_id = 1
+                    GROUP BY name
+                    ORDER BY name DESC
+                    LIMIT 48
+                ) rev
+                ORDER BY name`;
+                break;
+            case Interval.anno:
+                query = `SELECT * FROM (
+                    SELECT to_char(giorno, 'YYYY') as name, SUM(costo) AS value
+                    FROM gc.andamento
+                    WHERE tipo_spesa_id = 1
+                    GROUP BY name
+                    ORDER BY name DESC
+                ) rev
+                ORDER BY name`;
+                break;
+            default:
+                break;
+        }
+        return this.getAndamentoRepository().query(query);
     }
 
-    public async carburanteMensile(): Promise<Statistica> {
-        return this.getAndamentoRepository()
-            .query(`SELECT * FROM (
-                        SELECT to_char(giorno, 'YYYYMM') as name, SUM(costo) AS value
-                        FROM gc.andamento
-                        WHERE tipo_spesa_id = 2
-                        GROUP BY name
-                        ORDER BY name DESC
-                        LIMIT 48
-                    ) rev
-                    ORDER BY name
-            `);
+    public async carburante(interval: Interval): Promise<Statistica> {
+        let query = '';
+        switch (interval) {
+            case Interval.mese:
+                query = `SELECT * FROM (
+                    SELECT to_char(giorno, 'YYYYMM') as name, SUM(costo) AS value
+                    FROM gc.andamento
+                    WHERE tipo_spesa_id = 2
+                    GROUP BY name
+                    ORDER BY name DESC
+                    LIMIT 48
+                ) rev
+                ORDER BY name`;
+                break;
+            case Interval.anno:
+                query = `SELECT * FROM (
+                    SELECT to_char(giorno, 'YYYY') as name, SUM(costo) AS value
+                    FROM gc.andamento
+                    WHERE tipo_spesa_id = 2
+                    GROUP BY name
+                    ORDER BY name DESC
+                ) rev
+                ORDER BY name`;
+                break;
+            default:
+                break;
+        }
+        return this.getAndamentoRepository().query(query);
     }
 
-    public async bollettaMensile(): Promise<Statistica> {
-        return this.getAndamentoRepository()
-            .query(`SELECT * FROM (
-                        SELECT to_char(giorno, 'YYYYMM') as name, SUM(costo) AS value
-                        FROM gc.andamento
-                        WHERE tipo_spesa_id = 3
-                        GROUP BY name
-                        ORDER BY name DESC
-                        LIMIT 48
-                    ) rev
-                    ORDER BY name
-            `);
+    public async bolletta(interval: Interval): Promise<Statistica> {
+        let query = '';
+        switch (interval) {
+            case Interval.mese:
+                query = `SELECT * FROM (
+                    SELECT to_char(giorno, 'YYYYMM') as name, SUM(costo) AS value
+                    FROM gc.andamento
+                    WHERE tipo_spesa_id = 3
+                    GROUP BY name
+                    ORDER BY name DESC
+                    LIMIT 48
+                ) rev
+                ORDER BY name`;
+                break;
+            case Interval.anno:
+                query = `SELECT * FROM (
+                    SELECT to_char(giorno, 'YYYY') as name, SUM(costo) AS value
+                    FROM gc.andamento
+                    WHERE tipo_spesa_id = 3
+                    GROUP BY name
+                    ORDER BY name DESC
+                ) rev
+                ORDER BY name`;
+                break;
+            default:
+                break;
+        }
+        return this.getAndamentoRepository().query(query);
     }
 
 }

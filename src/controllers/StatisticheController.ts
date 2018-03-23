@@ -14,15 +14,15 @@ export default class StatisticheController {
         ctx.body = await this.statisticheService.speseFrequenti(ctx.params.interval);
     }
 
-    public async spesaMensile(ctx: IRouterContext) {
-        ctx.body = await this.statisticheService.spesaMensile();
+    public async spesa(ctx: IRouterContext) {
+        ctx.body = await this.statisticheService.spesa(ctx.params.interval);
     }
 
-    public async carburanteMensile(ctx: IRouterContext) {
-        ctx.body = await this.statisticheService.carburanteMensile();
+    public async carburante(ctx: IRouterContext) {
+        ctx.body = await this.statisticheService.carburante(ctx.params.interval);
     }
 
-    public async bollettaMensile(ctx: IRouterContext) {
-        ctx.body = await this.statisticheService.bollettaMensile();
+    public async bolletta(ctx: IRouterContext) {
+        ctx.body = await this.statisticheService.bolletta(ctx.params.interval);
     }
 }
