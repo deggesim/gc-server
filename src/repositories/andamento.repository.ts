@@ -30,8 +30,8 @@ export default class AndamentoRepository extends IRepository {
   }
 
   public async saveAndamento(andamento: Andamento): Promise<Andamento> {
-    const director = await this.getTipoSpesaRepository().findOne(andamento.$tipoSpesa.$id);
-    if (!director) {
+    const tipoSpesa = await this.getTipoSpesaRepository().findOne(andamento.$tipoSpesa.$id);
+    if (!tipoSpesa) {
       throw new BadRequestEntity("No tipoSpesa found for this ID: " + andamento.$tipoSpesa.$id);
     }
     return this.getAndamentoRepository().save(andamento);
