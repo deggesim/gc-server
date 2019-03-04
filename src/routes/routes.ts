@@ -1,6 +1,5 @@
-import * as Router from 'koa-router';
-
-import Route from '../models/route';
+import * as Router from "koa-router";
+import Route from "../models/route";
 
 export abstract class Routes {
 

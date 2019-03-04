@@ -17,10 +17,8 @@
     "url": "git+https://github.com/deggesim/gc.git"
   },
   "keywords": [
-    "movielistr",
-    "movies",
-    "listr",
-    "crud"
+    "spese",
+    "gestionale"
   ],
   "dependencies": {
     "@koa/cors": "^2.2.3",

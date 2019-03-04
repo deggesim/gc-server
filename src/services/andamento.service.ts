@@ -1,15 +1,14 @@
-import { Inject, Singleton } from 'typescript-ioc';
-
-import BadRequestEntity from '../exceptions/bad-request-entity.error';
-import EntityNotFoundError from '../exceptions/entity-not-found.error';
-import Andamento from '../models/andamento';
-import AndamentoRepository from '../repositories/andamento.repository';
+import { Inject, Singleton } from "typescript-ioc";
+import BadRequestEntity from "../exceptions/bad-request-entity.error";
+import EntityNotFoundError from "../exceptions/entity-not-found.error";
+import Andamento from "../models/andamento";
+import AndamentoRepository from "../repositories/andamento.repository";
 
 @Singleton
 export default class AndamentoService {
 
   constructor(
-    @Inject private andamentoRepository: AndamentoRepository
+    @Inject private andamentoRepository: AndamentoRepository,
   ) { }
 
   public async findById(id: number): Promise<Andamento> {
@@ -33,6 +32,9 @@ export default class AndamentoService {
   }
 
   public async save(andamento: Andamento): Promise<Andamento> {
+    console.log("********************** AndamentoService.saveAndamento ******************************");
+    console.log(andamento);
+    console.log("********************** AndamentoService.saveAndamento ******************************");
     return this.andamentoRepository.saveAndamento(andamento);
   }
 

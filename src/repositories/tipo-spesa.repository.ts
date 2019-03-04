@@ -1,8 +1,7 @@
-import { Singleton } from 'typescript-ioc';
-
-import EntityNotFoundError from '../exceptions/entity-not-found.error';
-import TipoSpesa from '../models/tipo-spesa';
-import IRepository from '../repositories/repository';
+import { Singleton } from "typescript-ioc";
+import EntityNotFoundError from "../exceptions/entity-not-found.error";
+import TipoSpesa from "../models/tipo-spesa";
+import IRepository from "../repositories/repository";
 
 @Singleton
 export default class TipoSpesaRepository extends IRepository {

@@ -1,4 +1,4 @@
-export interface Statistica {
+export interface IStatistica {
   name: string;
   value: number;
 }

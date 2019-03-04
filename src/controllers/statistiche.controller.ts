@@ -1,13 +1,13 @@
-import { IRouterContext } from 'koa-router';
-import { Inject, Singleton } from 'typescript-ioc';
+import { IRouterContext } from "koa-router";
+import { Inject, Singleton } from "typescript-ioc";
+import StatisticheService from "../services/statistiche.service";
 
-import StatisticheService from '../services/statistiche.service';
 
 @Singleton
 export default class StatisticheController {
 
   constructor(
-    @Inject private statisticheService: StatisticheService
+    @Inject private statisticheService: StatisticheService,
   ) { }
 
   public async speseFrequenti(ctx: IRouterContext) {

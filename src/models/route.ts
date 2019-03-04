@@ -1,4 +1,4 @@
-import { IRouterContext } from 'koa-router';
+import { IRouterContext } from "koa-router";
 
 export default class Route {
 

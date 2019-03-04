@@ -1,14 +1,14 @@
-import { IRouterContext } from 'koa-router';
-import { Inject } from 'typescript-ioc';
+import { IRouterContext } from "koa-router";
+import { Inject } from "typescript-ioc";
+import AndamentoController from "../controllers/andamento.controller";
+import Route from "../models/route";
+import IRoutes from "./routes";
 
-import AndamentoController from '../controllers/andamento.controller';
-import Route from '../models/route';
-import IRoutes from './routes';
 
 export default class AndamentoRoutes extends IRoutes {
 
   constructor(
-    @Inject private andamentoController: AndamentoController
+    @Inject private andamentoController: AndamentoController,
   ) {
     super();
   }

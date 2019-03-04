@@ -1,11 +1,10 @@
-import { Singleton } from 'typescript-ioc';
-
-import BadRequestEntity from '../exceptions/bad-request-entity.error';
-import EntityNotFoundError from '../exceptions/entity-not-found.error';
-import Andamento from '../models/andamento';
-import { Interval } from '../models/interval';
-import { Statistica } from '../models/statistica';
-import IRepository from './repository';
+import { Singleton } from "typescript-ioc";
+import BadRequestEntity from "../exceptions/bad-request-entity.error";
+import EntityNotFoundError from "../exceptions/entity-not-found.error";
+import Andamento from "../models/andamento";
+import { Interval } from "../models/interval";
+import { IStatistica } from "../models/statistica";
+import IRepository from "./repository";
 
 @Singleton
 export default class AndamentoRepository extends IRepository {
@@ -34,6 +33,9 @@ export default class AndamentoRepository extends IRepository {
     if (!tipoSpesa) {
       throw new BadRequestEntity("No tipoSpesa found for this ID: " + andamento.$tipoSpesa.$id);
     }
+    console.log("********************** AndamentoRepository.saveAndamento ******************************");
+    console.log(andamento);
+    console.log("********************** AndamentoRepository.saveAndamento ******************************");
     return this.getAndamentoRepository().save(andamento);
   }
 
@@ -60,8 +62,8 @@ export default class AndamentoRepository extends IRepository {
   }
 
   // statistiche
-  public async speseFrequenti(interval: Interval): Promise<Statistica> {
-    let whereCondition = '';
+  public async speseFrequenti(interval: Interval): Promise<IStatistica> {
+    let whereCondition = "";
     switch (interval) {
       case Interval.mese:
         whereCondition = "WHERE giorno > NOW() - interval '1 MONTH'";
@@ -81,8 +83,8 @@ export default class AndamentoRepository extends IRepository {
       `);
   }
 
-  public async spesa(interval: Interval): Promise<Statistica> {
-    let query = '';
+  public async spesa(interval: Interval): Promise<IStatistica> {
+    let query = "";
     switch (interval) {
       case Interval.mese:
         query = `SELECT * FROM (
@@ -111,8 +113,8 @@ export default class AndamentoRepository extends IRepository {
     return this.getAndamentoRepository().query(query);
   }
 
-  public async carburante(interval: Interval): Promise<Statistica> {
-    let query = '';
+  public async carburante(interval: Interval): Promise<IStatistica> {
+    let query = "";
     switch (interval) {
       case Interval.mese:
         query = `SELECT * FROM (
@@ -141,8 +143,8 @@ export default class AndamentoRepository extends IRepository {
     return this.getAndamentoRepository().query(query);
   }
 
-  public async bolletta(interval: Interval): Promise<Statistica> {
-    let query = '';
+  public async bolletta(interval: Interval): Promise<IStatistica> {
+    let query = "";
     switch (interval) {
       case Interval.mese:
         query = `SELECT * FROM (

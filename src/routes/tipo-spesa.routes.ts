@@ -1,14 +1,13 @@
-import { IRouterContext } from 'koa-router';
-import { Inject } from 'typescript-ioc';
-
-import TipoSpesaController from '../controllers/tipo-spesa.controller';
-import Route from '../models/route';
-import IRoutes from './routes';
+import { IRouterContext } from "koa-router";
+import { Inject } from "typescript-ioc";
+import TipoSpesaController from "../controllers/tipo-spesa.controller";
+import Route from "../models/route";
+import IRoutes from "./routes";
 
 export default class TipoSpesaRoutes extends IRoutes {
 
   constructor(
-    @Inject private directorController: TipoSpesaController
+    @Inject private directorController: TipoSpesaController,
   ) {
     super();
   }
