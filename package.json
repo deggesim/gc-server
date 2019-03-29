@@ -10,6 +10,7 @@
   "scripts": {
     "build": "tsc --rootDir ./src/",
     "start": "ts-node src/index.ts",
+    "local": "tsc --rootDir ./src/ & node dist/index.js",
     "postinstall": "npm run build"
   },
   "repository": {
