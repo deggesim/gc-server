@@ -3,7 +3,6 @@ import * as bodyParser from "koa-bodyparser";
 import * as logger from "koa-logger";
 import * as Router from "koa-router";
 import * as PostgressConnectionStringParser from "pg-connection-string";
-import "reflect-metadata";
 import { createConnection } from "typeorm";
 import { Inject } from "typescript-ioc";
 import Andamento from "./models/andamento";
@@ -27,7 +26,7 @@ export default class GestioneCasa {
     await createConnection({
       type: "postgres",
       host: connectionOptions.host as string,
-      port: connectionOptions.port as number || 5432,
+      port: connectionOptions.port as unknown as number || 5432,
       username: connectionOptions.user as string,
       password: connectionOptions.password as string,
       database: connectionOptions.database as string,

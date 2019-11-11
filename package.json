@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Gestione Casa",
   "engines": {
-    "node": "10.15.0",
+    "node": "12.13.0",
     "npm": "6.4.1"
   },
   "main": "index.js",
@@ -11,6 +11,7 @@
     "build": "tsc --rootDir ./src/",
     "start": "ts-node src/index.ts",
     "local": "tsc --rootDir ./src/ & node dist/index.js",
+    "dev": "nodemon",
     "postinstall": "npm run build"
   },
   "repository": {
@@ -22,38 +23,25 @@
     "gestionale"
   ],
   "dependencies": {
-    "@koa/cors": "^2.2.3",
-    "koa": "^2.6.2",
+    "@koa/cors": "^3.0.0",
+    "koa": "^2.11.0",
     "koa-bodyparser": "^4.2.1",
-    "koa-logger": "^3.2.0",
+    "koa-logger": "^3.2.1",
     "koa-router": "^7.4.0",
-    "pg": "^7.7.1",
-    "pg-connection-string": "^2.0.0",
-    "reflect-metadata": "^0.1.12",
-    "typeorm": "^0.2.11",
-    "typescript-ioc": "^1.2.4"
+    "pg": "^7.12.1",
+    "pg-connection-string": "^2.1.0",
+    "typeorm": "^0.2.20",
+    "typescript-ioc": "^1.2.5"
   },
   "devDependencies": {
-    "@types/chai": "^4.1.7",
-    "@types/koa": "^2.0.48",
-    "@types/koa-bodyparser": "^4.2.1",
+    "@types/koa": "^2.0.52",
+    "@types/koa-bodyparser": "^4.3.0",
     "@types/koa-logger": "^3.1.1",
-    "@types/koa-router": "^7.0.37",
-    "@types/mocha": "^5.2.5",
-    "@types/node": "^10.12.18",
-    "@types/shelljs": "^0.8.1",
-    "@types/sinon": "^7.0.3",
-    "@types/sinon-chai": "^3.2.2",
-    "@types/supertest": "^2.0.7",
-    "chai": "^4.2.0",
-    "mocha": "^5.2.0",
-    "shelljs": "^0.8.3",
-    "sinon": "^7.2.2",
-    "sinon-chai": "^3.3.0",
-    "supertest": "^3.3.0",
-    "ts-mockito": "^2.3.1",
-    "ts-node": "^7.0.1",
-    "typescript": "^3.2.2"
+    "@types/koa-router": "^7.0.42",
+    "@types/node": "^12.12.7",
+    "nodemon": "^1.19.4",
+    "ts-node": "^8.5.0",
+    "typescript": "^3.7.2"
   },
   "author": "Simone De Gennaro",
   "license": "ISC",
