@@ -1,7 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import TipoSpesa from "./tipo-spesa";
 
-
 @Entity()
 export default class Andamento {
 

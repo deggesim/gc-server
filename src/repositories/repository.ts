@@ -2,7 +2,6 @@ import { getManager } from "typeorm";
 import Andamento from "../models/andamento";
 import TipoSpesa from "../models/tipo-spesa";
 
-
 export default abstract class Repository {
 
   protected getTipoSpesaRepository() {

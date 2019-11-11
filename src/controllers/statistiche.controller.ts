@@ -2,7 +2,6 @@ import { IRouterContext } from "koa-router";
 import { Inject, Singleton } from "typescript-ioc";
 import StatisticheService from "../services/statistiche.service";
 
-
 @Singleton
 export default class StatisticheController {
 

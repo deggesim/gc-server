@@ -4,7 +4,6 @@ import AndamentoController from "../controllers/andamento.controller";
 import Route from "../models/route";
 import IRoutes from "./routes";
 
-
 export default class AndamentoRoutes extends IRoutes {
 
   constructor(

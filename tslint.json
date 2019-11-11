@@ -1,5 +1,5 @@
 {
-    "defaultSeverity": "error",
+    "defaultSeverity": "warning",
     "extends": [
         "tslint:recommended"
     ],
@@ -15,9 +15,6 @@
         "object-literal-sort-keys": false,
         "no-console": [
             false
-        ],
-        "no-unused-variable": [
-            true
         ],
         "curly": false
     },
