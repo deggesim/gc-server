@@ -1,4 +1,3 @@
-import "reflect-metadata";
 import { Container } from "typescript-ioc";
 import GestioneCasa from "./gestione-casa";
 
