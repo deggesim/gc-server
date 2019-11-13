@@ -7,6 +7,8 @@ import { createConnection } from "typeorm";
 import { Inject } from "typescript-ioc";
 import Andamento from "./models/andamento";
 import TipoSpesa from "./models/tipo-spesa";
+import Token from "./models/token";
+import Utente from "./models/utente";
 import AndamentoRoutes from "./routes/andamento.routes";
 import StatisticheRoutes from "./routes/statistiche.routes";
 import TipoSpesaRoutes from "./routes/tipo-spesa.routes";
@@ -20,7 +22,6 @@ export default class GestioneCasa {
   ) { }
 
   private async createApp() {
-    const env = process.env;
     const connectionOptions = PostgressConnectionStringParser.parse(process.env.DATABASE_URL as string);
 
     await createConnection({
@@ -32,23 +33,30 @@ export default class GestioneCasa {
       database: connectionOptions.database as string,
       schema: "gc",
       entities: [
-        Andamento, TipoSpesa,
+        Andamento, TipoSpesa, Utente, Token,
       ],
       logging: true,
     });
 
     const app: Koa = new Koa();
+    const freeRouter: Router = new Router();
     const router: Router = new Router();
 
     const cors = require("@koa/cors");
     app.use(cors());
 
-    this.andamentoRoutes.register(router);
-    this.tipoSpesaRoutes.register(router);
-    this.statisticheRoutes.register(router);
+    this.andamentoRoutes.register(freeRouter, router);
+    this.tipoSpesaRoutes.register(freeRouter, router);
+    this.statisticheRoutes.register(freeRouter, router);
 
     app.use(logger());
     app.use(bodyParser());
+    app.use(freeRouter.routes());
+    app.use(freeRouter.allowedMethods());
+
+    // Middleware below this line is only reached if JWT token is valid
+    const jwt = require("koa-jwt");
+    app.use(jwt({ secret: process.env.PUBLIC_KEY }));
     app.use(router.routes());
     app.use(router.allowedMethods());
 
