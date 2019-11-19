@@ -1,6 +1,6 @@
-import { IRouterContext } from "koa-router";
-import { Inject, Singleton } from "typescript-ioc";
-import UtenteService from "../services/utente.service";
+import { IRouterContext } from 'koa-router';
+import { Inject, Singleton } from 'typescript-ioc';
+import UtenteService from '../services/utente.service';
 
 @Singleton
 export default class UtenteController {
@@ -10,11 +10,11 @@ export default class UtenteController {
   ) { }
 
   public async login(ctx: IRouterContext) {
-    ctx.body = await this.utenteService.login(ctx.body);
+    ctx.body = await this.utenteService.login(ctx.request.body);
   }
 
   public async logout(ctx: IRouterContext) {
-    ctx.body = await this.utenteService.logout(ctx.body, ctx.request.get("token"));
+    ctx.body = await this.utenteService.logout(ctx.body, ctx.request.get('token'));
   }
 
   public async logoutAll(ctx: IRouterContext) {
@@ -22,7 +22,7 @@ export default class UtenteController {
   }
 
   public async me(ctx: IRouterContext) {
-    ctx.body = await this.utenteService.me(+ctx.request.get("id"), ctx.request.get("token"));
+    ctx.body = await this.utenteService.me(+ctx.request.get('id'), ctx.request.get('token'));
   }
 
   public async update(ctx: IRouterContext) {
@@ -30,7 +30,7 @@ export default class UtenteController {
   }
 
   public async delete(ctx: IRouterContext) {
-    ctx.body = await this.utenteService.delete(+ctx.request.get("id"));
+    ctx.body = await this.utenteService.delete(+ctx.request.get('id'));
   }
 
 }

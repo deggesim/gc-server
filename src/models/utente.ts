@@ -1,20 +1,20 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import Token from "./token";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import Token from './token';
 
 @Entity()
 export default class Utente {
 
     @PrimaryGeneratedColumn()
-    private id!: number;
+    public id!: number;
 
     @Column({ nullable: false })
-    private email!: string;
+    public email!: string;
 
     @Column({ nullable: false })
-    private password!: string;
+    public password!: string;
 
-    @OneToMany((type) => Token, (token) => token.$utente)
-    private tokens!: string[];
+    @OneToMany((type) => Token, (token) => token.utente, { eager: true })
+    public tokens!: Token[];
 
     public get $id(): number {
         return this.id;
@@ -40,11 +40,11 @@ export default class Utente {
         this.password = value;
     }
 
-    public get $tokens(): string[] {
+    public get $tokens(): Token[] {
         return this.tokens;
     }
 
-    public set $tokens(value: string[]) {
+    public set $tokens(value: Token[]) {
         this.tokens = value;
     }
 

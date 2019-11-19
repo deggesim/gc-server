@@ -1,5 +1,5 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import TipoSpesa from "./tipo-spesa";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import TipoSpesa from './tipo-spesa';
 
 @Entity()
 export default class Andamento {
@@ -13,11 +13,11 @@ export default class Andamento {
   @Column({ nullable: false })
   private descrizione!: string;
 
-  @Column("decimal", { nullable: false })
+  @Column('decimal', { nullable: false })
   private costo!: number;
 
   @ManyToOne((type) => TipoSpesa, { nullable: false })
-  @JoinColumn({ name: "tipo_spesa_id" })
+  @JoinColumn({ name: 'tipo_spesa_id' })
   private tipoSpesa!: TipoSpesa;
 
   public static newAndamento(obj: { id?: number, giorno?: Date, descrizione?: string, costo?: number, tipoSpesa?: object }): Andamento {

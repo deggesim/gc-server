@@ -1,18 +1,18 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import Utente from "./utente";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import Utente from './utente';
 
 @Entity()
 export default class Token {
 
     @PrimaryGeneratedColumn()
-    private id!: number;
+    public id!: number;
 
     @Column({ nullable: false })
-    private token!: string;
+    public token!: string;
 
-    @ManyToOne((type) => Utente, { nullable: false })
-    @JoinColumn({ name: "utente_id" })
-    private utente!: Utente;
+    @ManyToOne((type) => Utente, (utente) => utente.tokens, { nullable: false })
+    @JoinColumn({ name: 'utente_id' })
+    public utente!: Utente;
 
     public get $id(): number {
         return this.id;

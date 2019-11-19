@@ -1,7 +1,7 @@
-import { IRouterContext } from "koa-router";
-import { Inject, Singleton } from "typescript-ioc";
-import Andamento from "../models/andamento";
-import AndamentoService from "../services/andamento.service";
+import { IRouterContext } from 'koa-router';
+import { Inject, Singleton } from 'typescript-ioc';
+import Andamento from '../models/andamento';
+import AndamentoService from '../services/andamento.service';
 
 @Singleton
 export default class AndamentoController {
@@ -23,6 +23,8 @@ export default class AndamentoController {
   }
 
   public async updateAndamento(ctx: IRouterContext) {
+    console.log(ctx);
+
     try {
       const andamento: Andamento = Andamento.newAndamento(ctx.request.body);
       if (String(ctx.params.id) !== String(andamento.$id)) {
@@ -36,9 +38,9 @@ export default class AndamentoController {
 
   public async saveAndamento(ctx: IRouterContext) {
     try {
-      console.log("********************** AndamentoController.saveAndamento ******************************");
+      console.log('********************** AndamentoController.saveAndamento ******************************');
       console.log(ctx.request.body);
-      console.log("********************** AndamentoController.saveAndamento ******************************");
+      console.log('********************** AndamentoController.saveAndamento ******************************');
       const andamento: Andamento = Andamento.newAndamento(ctx.request.body);
       const result = await this.andamentoService.save(andamento);
       ctx.body = result;

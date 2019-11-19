@@ -1,7 +1,7 @@
-import { Inject, Singleton } from "typescript-ioc";
-import { Interval } from "../models/interval";
-import { IStatistica } from "../models/statistica";
-import AndamentoRepository from "../repositories/andamento.repository";
+import { Inject, Singleton } from 'typescript-ioc';
+import { Interval } from '../models/interval';
+import { IStatistica } from '../models/statistica';
+import AndamentoRepository from '../repositories/andamento.repository';
 
 @Singleton
 export default class StatisticheService {

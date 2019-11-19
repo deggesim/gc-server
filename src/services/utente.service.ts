@@ -1,6 +1,6 @@
-import { Inject, Singleton } from "typescript-ioc";
-import Utente from "../models/utente";
-import UtenteRepository from "../repositories/utente.repository";
+import { Inject, Singleton } from 'typescript-ioc';
+import Utente from '../models/utente';
+import UtenteRepository from '../repositories/utente.repository';
 
 @Singleton
 export default class UtenteService {
@@ -32,6 +32,5 @@ export default class UtenteService {
   public async delete($id: number) {
     return this.utenteRepository.delete($id);
   }
-
 
 }

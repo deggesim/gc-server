@@ -1,6 +1,6 @@
-import { IRouterContext } from "koa-router";
-import { Inject, Singleton } from "typescript-ioc";
-import TipoSpesaService from "../services/tipo-spesa.service";
+import { IRouterContext } from 'koa-router';
+import { Inject, Singleton } from 'typescript-ioc';
+import TipoSpesaService from '../services/tipo-spesa.service';
 
 @Singleton
 export default class TipoSpesaController {

@@ -1,6 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity("tipo_spesa")
+@Entity('tipo_spesa')
 export default class TipoSpesa {
 
   @PrimaryGeneratedColumn()

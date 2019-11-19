@@ -16,7 +16,13 @@
         "no-console": [
             false
         ],
-        "curly": false
+        "curly": false,
+        "quotemark": [
+            true,
+            "single",
+            "avoid-escape",
+            "avoid-template"
+        ]
     },
     "rulesDirectory": []
 }
