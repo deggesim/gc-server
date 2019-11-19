@@ -14,27 +14,11 @@ export default class Token {
     @JoinColumn({ name: 'utente_id' })
     public utente!: Utente;
 
-    public get $id(): number {
-        return this.id;
-    }
-
-    public set $id(value: number) {
-        this.id = value;
-    }
-
-    public get $token(): string {
-        return this.token;
-    }
-
-    public set $token(value: string) {
-        this.token = value;
-    }
-
-    public get $utente(): Utente {
-        return this.utente;
-    }
-
-    public set $utente(value: Utente) {
-        this.utente = value;
+    public static newToken(obj: { id?: number, token?: string, utente?: object }): Token {
+        const token = new Token();
+        if (obj.id) token.id = obj.id;
+        if (obj.token) token.token = obj.token;
+        if (obj.utente) token.utente = Utente.newUtente(obj.utente);
+        return token;
     }
 }

@@ -13,39 +13,15 @@ export default class Utente {
     @Column({ nullable: false })
     public password!: string;
 
-    @OneToMany((type) => Token, (token) => token.utente, { eager: true })
+    @OneToMany((type) => Token, (token) => token.utente, { eager: true, cascade: true })
     public tokens!: Token[];
 
-    public get $id(): number {
-        return this.id;
-    }
-
-    public set $id(value: number) {
-        this.id = value;
-    }
-
-    public get $email(): string {
-        return this.email;
-    }
-
-    public set $email(value: string) {
-        this.email = value;
-    }
-
-    public get $password(): string {
-        return this.password;
-    }
-
-    public set $password(value: string) {
-        this.password = value;
-    }
-
-    public get $tokens(): Token[] {
-        return this.tokens;
-    }
-
-    public set $tokens(value: Token[]) {
-        this.tokens = value;
+    public static newUtente(obj: { id?: number, email?: string, password?: string }): Utente {
+        const utente = new Utente();
+        if (obj.id) utente.id = obj.id;
+        if (obj.email) utente.email = obj.email;
+        if (obj.password) utente.password = obj.password;
+        return utente;
     }
 
 }
