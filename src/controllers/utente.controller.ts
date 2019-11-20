@@ -9,28 +9,32 @@ export default class UtenteController {
     @Inject private utenteService: UtenteService,
   ) { }
 
+  public async create(ctx: IRouterContext) {
+    ctx.body = await this.utenteService.create(ctx.request.body);
+  }
+
   public async login(ctx: IRouterContext) {
     ctx.body = await this.utenteService.login(ctx.request.body);
   }
 
   public async logout(ctx: IRouterContext) {
-    ctx.body = await this.utenteService.logout(ctx.body, ctx.request.get('token'));
+    ctx.body = await this.utenteService.logout(ctx.state.utente, ctx.state.toke);
   }
 
   public async logoutAll(ctx: IRouterContext) {
-    ctx.body = await this.utenteService.logoutAll(ctx.body);
+    ctx.body = await this.utenteService.logoutAll(ctx.state.utente);
   }
 
   public async me(ctx: IRouterContext) {
-    ctx.body = await this.utenteService.me(+ctx.request.get('id'), ctx.request.get('token'));
+    ctx.body = ctx.state.utente;
   }
 
   public async update(ctx: IRouterContext) {
-    ctx.body = await this.utenteService.update(ctx.body);
+    ctx.body = await this.utenteService.update(ctx.state.utente);
   }
 
   public async delete(ctx: IRouterContext) {
-    ctx.body = await this.utenteService.delete(+ctx.request.get('id'));
+    ctx.body = await this.utenteService.delete(ctx.state.utente.id);
   }
 
 }

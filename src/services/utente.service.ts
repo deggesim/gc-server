@@ -9,7 +9,11 @@ export default class UtenteService {
     @Inject private utenteRepository: UtenteRepository,
   ) { }
 
-  public async login(utente: Utente): Promise<Utente> {
+  public async create(utente: Utente): Promise<{ utente: Utente, token: string }> {
+    return this.utenteRepository.create(utente);
+  }
+
+  public async login(utente: Utente): Promise<{ utente: Utente, token: string }> {
     return this.utenteRepository.login(utente);
   }
 
@@ -21,16 +25,16 @@ export default class UtenteService {
     return this.utenteRepository.logoutAll(utente);
   }
 
-  public async me($id: number, token: string): Promise<Utente> {
-    return this.utenteRepository.me($id, token);
-  }
-
   public async update(utente: Utente): Promise<Utente> {
     return this.utenteRepository.update(utente);
   }
 
-  public async delete($id: number) {
-    return this.utenteRepository.delete($id);
+  public async delete(id: number) {
+    return this.utenteRepository.delete(id);
+  }
+
+  public async find(id: number): Promise<Utente> {
+    return this.utenteRepository.find(id);
   }
 
 }
