@@ -44,6 +44,7 @@ export default class AndamentoController {
       const andamento: Andamento = Andamento.newAndamento(ctx.request.body);
       const result = await this.andamentoService.save(andamento);
       ctx.body = result;
+      ctx.status = 201;
     } catch (e) {
       ctx.throw(400, e.message);
     }

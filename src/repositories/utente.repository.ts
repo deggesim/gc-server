@@ -12,6 +12,7 @@ import IRepository from './repository';
 export default class UtenteRepository extends IRepository {
 
   public async create(utenteInput: Utente): Promise<{ utente: Utente, token: string }> {
+    utenteInput.password = await bcrypt.hash(utenteInput.password, 8);
     const utente: Utente | undefined = await this.getUtenteRepository().save(utenteInput);
 
     if (!utente) {
@@ -41,6 +42,48 @@ export default class UtenteRepository extends IRepository {
     return await this.generateAuthToken(utente);
   }
 
+  public async logout(utente: Utente, userToken: string): Promise<Utente> {
+    const tokenToDelete = utente.tokens.find((token: Token) => token.token === userToken);
+    if (!tokenToDelete) {
+      throw new EntityNotFoundError();
+    }
+    await this.getTokenRepository().delete(tokenToDelete.id);
+    utente.tokens = utente.tokens.filter((token: Token) => token.token !== userToken);
+    return utente;
+  }
+
+  public async logoutAll(utente: Utente): Promise<Utente> {
+    await this.getTokenRepository().delete({ utente });
+    delete utente.tokens;
+    return utente;
+  }
+
+  public async update(utente: Utente): Promise<Utente> {
+    if (this.isPasswordModified(utente)) {
+      utente.password = await bcrypt.hash(utente.password, 8);
+    }
+    return await this.getUtenteRepository().save(utente);
+  }
+
+  public async delete(id: number): Promise<Utente> {
+    const utente = await this.getUtenteRepository().findOne({ id });
+    if (!utente) {
+      throw new EntityNotFoundError();
+    }
+
+    await this.getTokenRepository().delete({ utente });
+    await this.getUtenteRepository().delete({ id });
+    return utente;
+  }
+
+  public async find(id: number): Promise<Utente> {
+    const result = await this.getUtenteRepository().findOne({ id });
+    if (!result) {
+      throw new EntityNotFoundError();
+    }
+    return result;
+  }
+
   private async generateAuthToken(utente: Utente) {
     const token = jsonwebtoken.sign({ id: utente.id.toString() }, String(process.env.PUBLIC_KEY), {
       expiresIn: '2 weeks',
@@ -50,34 +93,14 @@ export default class UtenteRepository extends IRepository {
     } else {
       utente.tokens = [Token.newToken({ token })];
     }
-    utente = await this.update(utente);
+    utente = await this.getUtenteRepository().save(utente);
+    console.log(utente);
+
     return { utente, token };
   }
 
-  public async logout(utente: Utente, userToken: string): Promise<Utente> {
-    utente.tokens = utente.tokens.filter((token: Token) => token.token !== userToken);
-    return await this.getUtenteRepository().save(utente);
-  }
-
-  public async logoutAll(utente: Utente): Promise<Utente> {
-    utente.tokens = [];
-    return await this.getUtenteRepository().save(utente);
-  }
-
-  public async update(utente: Utente): Promise<Utente> {
-    return await this.getUtenteRepository().save(utente);
-  }
-
-  public async delete(id: number) {
-    await this.getUtenteRepository().delete({ id });
-  }
-
-  public async find(id: number): Promise<Utente> {
-    const result = await this.getUtenteRepository().findOne({ id });
-    if (!result) {
-      throw new EntityNotFoundError();
-    }
-    return result;
+  private isPasswordModified(utente: Utente): boolean {
+    return 'password' in utente;
   }
 
 }

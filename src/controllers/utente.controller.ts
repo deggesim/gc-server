@@ -11,6 +11,7 @@ export default class UtenteController {
 
   public async create(ctx: IRouterContext) {
     ctx.body = await this.utenteService.create(ctx.request.body);
+    ctx.status = 201;
   }
 
   public async login(ctx: IRouterContext) {
@@ -18,7 +19,7 @@ export default class UtenteController {
   }
 
   public async logout(ctx: IRouterContext) {
-    ctx.body = await this.utenteService.logout(ctx.state.utente, ctx.state.toke);
+    ctx.body = await this.utenteService.logout(ctx.state.utente, ctx.state.token);
   }
 
   public async logoutAll(ctx: IRouterContext) {
