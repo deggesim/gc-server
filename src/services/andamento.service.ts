@@ -32,9 +32,6 @@ export default class AndamentoService {
   }
 
   public async save(andamento: Andamento): Promise<Andamento> {
-    console.log('********************** AndamentoService.saveAndamento ******************************');
-    console.log(andamento);
-    console.log('********************** AndamentoService.saveAndamento ******************************');
     return this.andamentoRepository.saveAndamento(andamento);
   }
 

@@ -33,9 +33,6 @@ export default class AndamentoRepository extends IRepository {
     if (!tipoSpesa) {
       throw new BadRequestEntity('No tipoSpesa found for this ID: ' + andamento.$tipoSpesa.$id);
     }
-    console.log('********************** AndamentoRepository.saveAndamento ******************************');
-    console.log(andamento);
-    console.log('********************** AndamentoRepository.saveAndamento ******************************');
     return this.getAndamentoRepository().save(andamento);
   }
 

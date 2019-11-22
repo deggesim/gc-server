@@ -36,7 +36,7 @@ export default class UtenteRepository extends IRepository {
 
     const isMatch = await bcrypt.compare(utenteInput.password, utente.password);
     if (!isMatch) {
-      throw new BadRequestEntity('Unable to login');
+      throw new BadRequestEntity('Email o password errate');
     }
 
     return await this.generateAuthToken(utente);
@@ -94,8 +94,6 @@ export default class UtenteRepository extends IRepository {
       utente.tokens = [Token.newToken({ token })];
     }
     utente = await this.getUtenteRepository().save(utente);
-    console.log(utente);
-
     return { utente, token };
   }
 

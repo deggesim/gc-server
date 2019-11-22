@@ -10,12 +10,20 @@ export default class UtenteController {
   ) { }
 
   public async create(ctx: IRouterContext) {
-    ctx.body = await this.utenteService.create(ctx.request.body);
-    ctx.status = 201;
+    try {
+      ctx.body = await this.utenteService.create(ctx.request.body);
+      ctx.status = 201;
+    } catch (error) {
+      ctx.throw(400, 'Impossibile creare un nuovo utente');
+    }
   }
 
   public async login(ctx: IRouterContext) {
-    ctx.body = await this.utenteService.login(ctx.request.body);
+    try {
+      ctx.body = await this.utenteService.login(ctx.request.body);
+    } catch (e) {
+      ctx.throw(401, e.message);
+    }
   }
 
   public async logout(ctx: IRouterContext) {
@@ -31,11 +39,19 @@ export default class UtenteController {
   }
 
   public async update(ctx: IRouterContext) {
-    ctx.body = await this.utenteService.update(ctx.state.utente);
+    try {
+      ctx.body = await this.utenteService.update(ctx.state.utente);
+    } catch (e) {
+      ctx.throw(400, e.message);
+    }
   }
 
   public async delete(ctx: IRouterContext) {
-    ctx.body = await this.utenteService.delete(ctx.state.utente.id);
+    try {
+      ctx.body = await this.utenteService.delete(ctx.state.utente.id);
+    } catch (e) {
+      ctx.throw(404, e.message);
+    }
   }
 
 }

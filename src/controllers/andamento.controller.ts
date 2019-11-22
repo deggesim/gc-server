@@ -23,8 +23,6 @@ export default class AndamentoController {
   }
 
   public async updateAndamento(ctx: IRouterContext) {
-    console.log(ctx);
-
     try {
       const andamento: Andamento = Andamento.newAndamento(ctx.request.body);
       if (String(ctx.params.id) !== String(andamento.$id)) {
@@ -38,9 +36,6 @@ export default class AndamentoController {
 
   public async saveAndamento(ctx: IRouterContext) {
     try {
-      console.log('********************** AndamentoController.saveAndamento ******************************');
-      console.log(ctx.request.body);
-      console.log('********************** AndamentoController.saveAndamento ******************************');
       const andamento: Andamento = Andamento.newAndamento(ctx.request.body);
       const result = await this.andamentoService.save(andamento);
       ctx.body = result;
