@@ -40,7 +40,7 @@ export default class UtenteController {
 
   public async update(ctx: IRouterContext) {
     try {
-      ctx.body = await this.utenteService.update(ctx.state.utente);
+      ctx.body = await this.utenteService.update(ctx.request.body);
     } catch (e) {
       ctx.throw(400, e.message);
     }

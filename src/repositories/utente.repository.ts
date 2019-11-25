@@ -23,15 +23,10 @@ export default class UtenteRepository extends IRepository {
   }
 
   public async login(utenteInput: Utente): Promise<{ utente: Utente, token: string }> {
-    const findOptions: FindOneOptions<Utente> = {
-      where: {
-        $email: utenteInput.email,
-      },
-    };
-    const utente: Utente | undefined = await this.getUtenteRepository().findOne(findOptions);
+    const utente: Utente | undefined = await this.getUtenteRepository().findOne({ email: utenteInput.email });
 
     if (!utente) {
-      throw new EntityNotFoundError();
+      throw new EntityNotFoundError('Email o password errate');
     }
 
     const isMatch = await bcrypt.compare(utenteInput.password, utente.password);
@@ -86,7 +81,7 @@ export default class UtenteRepository extends IRepository {
 
   private async generateAuthToken(utente: Utente) {
     const token = jsonwebtoken.sign({ id: utente.id.toString() }, String(process.env.PUBLIC_KEY), {
-      expiresIn: '2 weeks',
+      expiresIn: '14d',
     });
     if (utente.tokens) {
       utente.tokens.push(Token.newToken({ token }));
