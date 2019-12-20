@@ -2,6 +2,16 @@
   "name": "gc",
   "version": "1.0.0",
   "description": "Gestione Casa",
+  "author": "Simone De Gennaro",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deggesim/gc-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/deggesim/gc-server/issues"
+  },
+  "homepage": "https://github.com/deggesim/gc-server#readme",
   "engines": {
     "node": "10.16.1",
     "npm": "6.9.0"
@@ -15,14 +25,6 @@
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "postinstall": "npm run build"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/deggesim/gc.git"
-  },
-  "keywords": [
-    "spese",
-    "gestionale"
-  ],
   "dependencies": {
     "@koa/cors": "^3.0.0",
     "bcryptjs": "^2.4.3",
@@ -53,11 +55,5 @@
     "ts-node": "^8.5.0",
     "tslint": "^5.20.1",
     "typescript": "^3.7.2"
-  },
-  "author": "Simone De Gennaro",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/deggesim/gc/issues"
-  },
-  "homepage": "https://github.com/deggesim/gc#readme"
+  }
 }
