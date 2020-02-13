@@ -1,10 +1,4 @@
 node_modules/
 dist/
-.ts-node/
-db-data/*
-!db-data/.gitkeep
-yarn.lock
-yarn-error.lock
-yarn-error.log
-.vscode/settings.json
-config
+.vscode/
+config/
