@@ -49,7 +49,7 @@ export default class UtenteRepository extends IRepository {
 
   public async logoutAll(utente: Utente): Promise<Utente> {
     await this.getTokenRepository().delete({ utente });
-    delete utente.tokens;
+    utente.tokens = [];
     return utente;
   }
 

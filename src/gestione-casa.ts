@@ -68,7 +68,7 @@ export default class GestioneCasa {
 
     // memorizzo i dati del token nella request
     app.use(async (ctx: Router.IRouterContext, next: Koa.Next) => {
-      const token = ctx.request.header.authorization.replace('Bearer ', '');
+      const token = ctx?.request?.header?.authorization?.replace('Bearer ', '');
       const utenteId = ctx.state.user.id;
       const utente = await this.utenteService.find(utenteId);
       ctx.state.utente = utente;
