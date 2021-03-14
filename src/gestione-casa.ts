@@ -42,7 +42,9 @@ export default class GestioneCasa {
         Andamento, TipoSpesa, Utente, Token,
       ],
       logging: true,
-      extra: { ssl: true, rejectUnauthorized: false },
+      ssl: true,
+      extra: { ssl: { rejectUnauthorized: false, },
+  },
     });
 
     const app: Koa = new Koa();
