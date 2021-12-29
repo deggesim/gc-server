@@ -38,7 +38,8 @@
     "pg": "^8.5.1",
     "pg-connection-string": "^2.4.0",
     "typeorm": "^0.2.31",
-    "typescript-ioc": "^3.2.2"
+    "typescript-ioc": "^3.2.2",
+    "web-push": "^3.4.5"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",

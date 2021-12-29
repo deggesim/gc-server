@@ -1,20 +1,17 @@
-import { IRouterContext } from 'koa-router';
-import { Inject, Singleton } from 'typescript-ioc';
-import UtenteService from '../services/utente.service';
+import { IRouterContext } from "koa-router";
+import { Inject, Singleton } from "typescript-ioc";
+import UtenteService from "../services/utente.service";
 
 @Singleton
 export default class UtenteController {
-
-  constructor(
-    @Inject private utenteService: UtenteService,
-  ) { }
+  constructor(@Inject private utenteService: UtenteService) {}
 
   public async create(ctx: IRouterContext) {
     try {
       ctx.body = await this.utenteService.create(ctx.request.body);
       ctx.status = 201;
     } catch (error) {
-      ctx.throw(400, 'Impossibile creare un nuovo utente');
+      ctx.throw(400, "Impossibile creare un nuovo utente");
     }
   }
 
@@ -27,7 +24,10 @@ export default class UtenteController {
   }
 
   public async logout(ctx: IRouterContext) {
-    ctx.body = await this.utenteService.logout(ctx.state.utente, ctx.state.token);
+    ctx.body = await this.utenteService.logout(
+      ctx.state.utente,
+      ctx.state.token
+    );
   }
 
   public async logoutAll(ctx: IRouterContext) {
@@ -53,5 +53,4 @@ export default class UtenteController {
       ctx.throw(404, e.message);
     }
   }
-
 }

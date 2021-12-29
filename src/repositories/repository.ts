@@ -1,11 +1,11 @@
-import { getManager } from 'typeorm';
-import Andamento from '../models/andamento';
-import TipoSpesa from '../models/tipo-spesa';
-import Token from '../models/token';
-import Utente from '../models/utente';
+import { getManager } from "typeorm";
+import Andamento from "../models/andamento";
+import Subscription from "../models/subscription";
+import TipoSpesa from "../models/tipo-spesa";
+import Token from "../models/token";
+import Utente from "../models/utente";
 
 export default abstract class Repository {
-
   protected getTipoSpesaRepository() {
     return getManager().getRepository(TipoSpesa);
   }
@@ -22,4 +22,7 @@ export default abstract class Repository {
     return getManager().getRepository(Token);
   }
 
+  protected getSubscriptionRepository() {
+    return getManager().getRepository(Subscription);
+  }
 }
