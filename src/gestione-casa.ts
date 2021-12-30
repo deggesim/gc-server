@@ -17,6 +17,7 @@ import SubscriptionRoutes from "./routes/subscription.routes";
 import TipoSpesaRoutes from "./routes/tipo-spesa.routes";
 import UtenteRoutes from "./routes/utente.routes";
 import UtenteService from "./services/utente.service";
+import * as webpush from "web-push";
 
 export default class GestioneCasa {
   constructor(
@@ -48,15 +49,17 @@ export default class GestioneCasa {
       extra: { ssl: { rejectUnauthorized: false } },
     });
 
-    const webpush = require("web-push");
-
     const vapidKeys = {
-      publicKey: process.env.VAPID_PUBLIC_KEY,
-      privateKey: process.env.VAPID_PRIVATE_KEY,
+      publicKey: process.env.VAPID_PUBLIC_KEY
+        ? process.env.VAPID_PUBLIC_KEY
+        : "",
+      privateKey: process.env.VAPID_PRIVATE_KEY
+        ? process.env.VAPID_PRIVATE_KEY
+        : "",
     };
 
     webpush.setVapidDetails(
-      "mailto:simone.degennaro@yahoo.it",
+      `mailto:${process.env.VAPID_MAILTO}`,
       vapidKeys.publicKey,
       vapidKeys.privateKey
     );
