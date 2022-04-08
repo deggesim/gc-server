@@ -5,6 +5,7 @@ import * as Router from "koa-router";
 import * as PostgressConnectionStringParser from "pg-connection-string";
 import { createConnection } from "typeorm";
 import { Inject } from "typescript-ioc";
+import * as webpush from "web-push";
 import UtenteController from "./controllers/utente.controller";
 import Andamento from "./models/andamento";
 import Subscription from "./models/subscription";
@@ -17,7 +18,6 @@ import SubscriptionRoutes from "./routes/subscription.routes";
 import TipoSpesaRoutes from "./routes/tipo-spesa.routes";
 import UtenteRoutes from "./routes/utente.routes";
 import UtenteService from "./services/utente.service";
-import * as webpush from "web-push";
 
 export default class GestioneCasa {
   constructor(

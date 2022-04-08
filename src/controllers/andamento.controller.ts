@@ -69,13 +69,13 @@ export default class AndamentoController {
         };
 
         // Create our number formatter.
-        var formatter = new Intl.NumberFormat("it-IT", {
+        const formatter = new Intl.NumberFormat("it-IT", {
           style: "currency",
           currency: "EUR",
         });
         const value = formatter.format(andamento.$costo);
 
-        var payload = {
+        const payload = {
           notification: {
             title: "Nuova spesa",
             body: `${andamento.$tipoSpesa.$descrizione} - ${andamento.$descrizione} - ${value}`,
