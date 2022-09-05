@@ -1,32 +1,54 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import TipoSpesa from './tipo-spesa';
+import { DateTime } from "luxon";
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import TipoSpesa from "./tipo-spesa";
 
 @Entity()
 export default class Andamento {
-
   @PrimaryGeneratedColumn()
   private id!: number;
 
-  @Column({ nullable: false })
-  private giorno!: Date;
+  @Column({ type: "date", nullable: false })
+  private giorno!: string;
 
   @Column({ nullable: false })
   private descrizione!: string;
 
-  @Column('decimal', { nullable: false })
+  @Column("decimal", { nullable: false })
   private costo!: number;
 
   @ManyToOne((type) => TipoSpesa, { nullable: false })
-  @JoinColumn({ name: 'tipo_spesa_id' })
+  @JoinColumn({ name: "tipo_spesa_id" })
   private tipoSpesa!: TipoSpesa;
 
-  public static newAndamento(obj: { id?: number, giorno?: Date, descrizione?: string, costo?: number, tipoSpesa?: object }): Andamento {
+  public static newAndamento(obj: {
+    id?: number;
+    giorno?: string;
+    descrizione?: string;
+    costo?: number;
+    tipoSpesa?: object;
+  }): Andamento {
     const andamento = new Andamento();
-    if (obj.id) andamento.id = obj.id;
-    if (obj.giorno) andamento.giorno = obj.giorno;
-    if (obj.descrizione) andamento.descrizione = obj.descrizione;
-    if (obj.costo) andamento.costo = obj.costo;
-    if (obj.tipoSpesa) andamento.tipoSpesa = TipoSpesa.newTipoSpesa(obj.tipoSpesa);
+    if (obj.id) {
+      andamento.id = obj.id;
+    }
+    if (obj.giorno) {
+      andamento.giorno = DateTime.fromISO(obj.giorno).toISODate();
+    }
+    if (obj.descrizione) {
+      andamento.descrizione = obj.descrizione;
+    }
+    if (obj.costo) {
+      andamento.costo = obj.costo;
+    }
+    if (obj.tipoSpesa) {
+      andamento.tipoSpesa = TipoSpesa.newTipoSpesa(obj.tipoSpesa);
+    }
     return andamento;
   }
 
@@ -38,11 +60,11 @@ export default class Andamento {
     this.id = id;
   }
 
-  public get $giorno(): Date {
+  public get $giorno(): string {
     return this.giorno;
   }
 
-  public set $giorno(value: Date) {
+  public set $giorno(value: string) {
     this.giorno = value;
   }
 
