@@ -38,7 +38,7 @@ export default class Andamento {
       andamento.id = obj.id;
     }
     if (obj.giorno) {
-      andamento.giorno = DateTime.fromISO(obj.giorno).toLocal().toISODate();
+      andamento.giorno = obj.giorno;
     }
     if (obj.descrizione) {
       andamento.descrizione = obj.descrizione;
