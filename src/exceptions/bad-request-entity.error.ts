@@ -1,3 +1,1 @@
-export default class BadRequestEntity extends Error {
-
-}
+export default class BadRequestEntity extends Error {}

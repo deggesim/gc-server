@@ -1,27 +1,25 @@
-import { Singleton } from 'typescript-ioc';
-import BadRequestEntity from '../exceptions/bad-request-entity.error';
-import EntityNotFoundError from '../exceptions/entity-not-found.error';
-import Andamento from '../models/andamento';
-import { Interval } from '../models/interval';
-import { IStatistica } from '../models/statistica';
-import IRepository from './repository';
+import { Singleton } from "typescript-ioc";
+import BadRequestEntity from "../exceptions/bad-request-entity.error";
+import EntityNotFoundError from "../exceptions/entity-not-found.error";
+import Andamento from "../models/andamento";
+import { Interval } from "../models/interval";
+import { IStatistica } from "../models/statistica";
+import IRepository from "./repository";
 
 @Singleton
 export default class AndamentoRepository extends IRepository {
-
   public async getAllAndamentos(): Promise<Andamento[]> {
     return this.getAndamentoRepository()
-      .createQueryBuilder('andamento')
-      .innerJoinAndSelect('andamento.tipoSpesa', 'tipoSpesa')
-      .orderBy('giorno', 'DESC')
+      .createQueryBuilder("andamento")
+      .innerJoinAndSelect("andamento.tipoSpesa", "tipoSpesa")
+      .orderBy("giorno", "DESC")
       .getMany();
   }
 
   public async findAndamentoById(id: number): Promise<Andamento> {
-    const result = await this.getAndamentoRepository()
-      .findOne(id, {
-        relations: ['tipoSpesa'],
-      });
+    const result = await this.getAndamentoRepository().findOne(id, {
+      relations: ["tipoSpesa"],
+    });
     if (!result) {
       throw new EntityNotFoundError();
     }
@@ -29,9 +27,13 @@ export default class AndamentoRepository extends IRepository {
   }
 
   public async saveAndamento(andamento: Andamento): Promise<Andamento> {
-    const tipoSpesa = await this.getTipoSpesaRepository().findOne(andamento.$tipoSpesa.$id);
+    const tipoSpesa = await this.getTipoSpesaRepository().findOne(
+      andamento.$tipoSpesa.$id
+    );
     if (!tipoSpesa) {
-      throw new BadRequestEntity('No tipoSpesa found for this ID: ' + andamento.$tipoSpesa.$id);
+      throw new BadRequestEntity(
+        "No tipoSpesa found for this ID: " + andamento.$tipoSpesa.$id
+      );
     }
     return this.getAndamentoRepository().save(andamento);
   }
@@ -39,28 +41,30 @@ export default class AndamentoRepository extends IRepository {
   public async deleteAndamento(id: number): Promise<void> {
     const andamento = await this.getAndamentoRepository().findOne(id);
     if (!andamento) {
-      throw new EntityNotFoundError('No andamento found with this ID');
+      throw new EntityNotFoundError("No andamento found with this ID");
     }
     await this.getAndamentoRepository()
-      .createQueryBuilder('andamento')
+      .createQueryBuilder("andamento")
       .delete()
-      .where('andamento.id = :id', { id })
+      .where("andamento.id = :id", { id })
       .execute();
     return Promise.resolve();
   }
 
-  public async deleteAndamentosFromTipoSpesa(tipoSpesaId: number): Promise<void> {
+  public async deleteAndamentosFromTipoSpesa(
+    tipoSpesaId: number
+  ): Promise<void> {
     await this.getAndamentoRepository()
-      .createQueryBuilder('andamento')
+      .createQueryBuilder("andamento")
       .delete()
-      .where('andamento.tipoSpesa.id = :tipoSpesaId', { tipoSpesaId })
+      .where("andamento.tipoSpesa.id = :tipoSpesaId", { tipoSpesaId })
       .execute();
     return Promise.resolve();
   }
 
   // statistiche
   public async speseFrequenti(interval: Interval): Promise<IStatistica> {
-    let whereCondition = '';
+    let whereCondition = "";
     switch (interval) {
       case Interval.mese:
         whereCondition = "WHERE giorno > NOW() - interval '1 MONTH'";
@@ -81,7 +85,7 @@ export default class AndamentoRepository extends IRepository {
   }
 
   public async spesa(interval: Interval): Promise<IStatistica> {
-    let query = '';
+    let query = "";
     switch (interval) {
       case Interval.mese:
         query = `SELECT * FROM (
@@ -111,7 +115,7 @@ export default class AndamentoRepository extends IRepository {
   }
 
   public async carburante(interval: Interval): Promise<IStatistica> {
-    let query = '';
+    let query = "";
     switch (interval) {
       case Interval.mese:
         query = `SELECT * FROM (
@@ -141,7 +145,7 @@ export default class AndamentoRepository extends IRepository {
   }
 
   public async bolletta(interval: Interval): Promise<IStatistica> {
-    let query = '';
+    let query = "";
     switch (interval) {
       case Interval.mese:
         query = `SELECT * FROM (
@@ -170,4 +174,53 @@ export default class AndamentoRepository extends IRepository {
     return this.getAndamentoRepository().query(query);
   }
 
+  public async casa(interval: Interval): Promise<IStatistica> {
+    let query = "";
+    switch (interval) {
+      case Interval.mese:
+        query = `SELECT * FROM (
+          SELECT to_char(giorno, 'YYYYMM') as name, SUM(costo) AS value
+          FROM gc.andamento
+          WHERE tipo_spesa_id = 7
+          GROUP BY name
+          ORDER BY name DESC
+          LIMIT 48
+        ) rev
+        ORDER BY name`;
+        break;
+      case Interval.anno:
+        query = `SELECT * FROM (
+          SELECT to_char(giorno, 'YYYY') as name, SUM(costo) AS value
+          FROM gc.andamento
+          WHERE tipo_spesa_id = 7
+          GROUP BY name
+          ORDER BY name DESC
+        ) rev
+        ORDER BY name`;
+        break;
+      default:
+        break;
+    }
+    return this.getAndamentoRepository().query(query);
+  }
 }
+
+/*
+with months as (
+select generate_series(min_month, max_month, '1 month') as month
+    from (
+        select
+            date_trunc('year', min(giorno)) as min_month,
+            date_trunc('year', max(giorno) + interval '1 year') - interval '1 month' as max_month
+        from gc.andamento
+    ) s ) 
+    select
+    to_char(date_trunc('month', m.month), 'YYYY Month') mon,
+    sum(costo) costo
+from
+    gc.andamento andamento
+    right join
+    months m on date_trunc('month', andamento.giorno) = m.month
+group by m.month
+order by m.month desc
+*/

@@ -1,19 +1,20 @@
-import { Inject, Singleton } from 'typescript-ioc';
-import Utente from '../models/utente';
-import UtenteRepository from '../repositories/utente.repository';
+import { Inject, Singleton } from "typescript-ioc";
+import Utente from "../models/utente";
+import UtenteRepository from "../repositories/utente.repository";
 
 @Singleton
 export default class UtenteService {
+  constructor(@Inject private utenteRepository: UtenteRepository) {}
 
-  constructor(
-    @Inject private utenteRepository: UtenteRepository,
-  ) { }
-
-  public async create(utente: Utente): Promise<{ utente: Utente, token: string }> {
+  public async create(
+    utente: Utente
+  ): Promise<{ utente: Utente; token: string }> {
     return this.utenteRepository.create(utente);
   }
 
-  public async login(utente: Utente): Promise<{ utente: Utente, token: string }> {
+  public async login(
+    utente: Utente
+  ): Promise<{ utente: Utente; token: string }> {
     return this.utenteRepository.login(utente);
   }
 
@@ -36,5 +37,4 @@ export default class UtenteService {
   public async find(id: number): Promise<Utente> {
     return this.utenteRepository.find(id);
   }
-
 }

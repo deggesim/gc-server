@@ -1,5 +1,5 @@
 export enum Interval {
-  mese = 'M',
-  anno = 'Y',
-  tutto = 'A',
+  mese = "M",
+  anno = "Y",
+  tutto = "A",
 }

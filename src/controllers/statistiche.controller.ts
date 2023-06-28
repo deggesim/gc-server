@@ -1,16 +1,15 @@
-import { IRouterContext } from 'koa-router';
-import { Inject, Singleton } from 'typescript-ioc';
-import StatisticheService from '../services/statistiche.service';
+import { IRouterContext } from "koa-router";
+import { Inject, Singleton } from "typescript-ioc";
+import StatisticheService from "../services/statistiche.service";
 
 @Singleton
 export default class StatisticheController {
-
-  constructor(
-    @Inject private statisticheService: StatisticheService,
-  ) { }
+  constructor(@Inject private statisticheService: StatisticheService) {}
 
   public async speseFrequenti(ctx: IRouterContext) {
-    ctx.body = await this.statisticheService.speseFrequenti(ctx.params.interval);
+    ctx.body = await this.statisticheService.speseFrequenti(
+      ctx.params.interval
+    );
   }
 
   public async spesa(ctx: IRouterContext) {
@@ -23,5 +22,9 @@ export default class StatisticheController {
 
   public async bolletta(ctx: IRouterContext) {
     ctx.body = await this.statisticheService.bolletta(ctx.params.interval);
+  }
+
+  public async casa(ctx: IRouterContext) {
+    ctx.body = await this.statisticheService.casa(ctx.params.interval);
   }
 }
