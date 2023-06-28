@@ -1,15 +1,12 @@
-import { Inject, Singleton } from 'typescript-ioc';
-import BadRequestEntity from '../exceptions/bad-request-entity.error';
-import EntityNotFoundError from '../exceptions/entity-not-found.error';
-import Andamento from '../models/andamento';
-import AndamentoRepository from '../repositories/andamento.repository';
+import { Inject, Singleton } from "typescript-ioc";
+import BadRequestEntity from "../exceptions/bad-request-entity.error";
+import EntityNotFoundError from "../exceptions/entity-not-found.error";
+import Andamento from "../models/andamento";
+import AndamentoRepository from "../repositories/andamento.repository";
 
 @Singleton
 export default class AndamentoService {
-
-  constructor(
-    @Inject private andamentoRepository: AndamentoRepository,
-  ) { }
+  constructor(@Inject private andamentoRepository: AndamentoRepository) {}
 
   public async findById(id: number): Promise<Andamento> {
     return this.andamentoRepository.findAndamentoById(id);
@@ -25,7 +22,7 @@ export default class AndamentoService {
       return this.andamentoRepository.saveAndamento(andamento);
     } catch (e) {
       if (e instanceof EntityNotFoundError) {
-        throw new BadRequestEntity('The given andamento does not exist yet.');
+        throw new BadRequestEntity("The given andamento does not exist yet.");
       }
       throw e;
     }

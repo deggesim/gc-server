@@ -1,3 +1,1 @@
-export default class EntityNotFound extends Error {
-
-}
+export default class EntityNotFound extends Error {}

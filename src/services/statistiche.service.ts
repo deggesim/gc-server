@@ -1,14 +1,11 @@
-import { Inject, Singleton } from 'typescript-ioc';
-import { Interval } from '../models/interval';
-import { IStatistica } from '../models/statistica';
-import AndamentoRepository from '../repositories/andamento.repository';
+import { Inject, Singleton } from "typescript-ioc";
+import { Interval } from "../models/interval";
+import { IStatistica } from "../models/statistica";
+import AndamentoRepository from "../repositories/andamento.repository";
 
 @Singleton
 export default class StatisticheService {
-
-  constructor(
-    @Inject private andamentoRepository: AndamentoRepository,
-  ) { }
+  constructor(@Inject private andamentoRepository: AndamentoRepository) {}
 
   public async speseFrequenti(interval: Interval): Promise<IStatistica> {
     return this.andamentoRepository.speseFrequenti(interval);
@@ -24,5 +21,9 @@ export default class StatisticheService {
 
   public async bolletta(interval: Interval): Promise<IStatistica> {
     return this.andamentoRepository.bolletta(interval);
+  }
+
+  public async casa(interval: Interval): Promise<IStatistica> {
+    return this.andamentoRepository.casa(interval);
   }
 }

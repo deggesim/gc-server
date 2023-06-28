@@ -1,8 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity('tipo_spesa')
+@Entity("tipo_spesa")
 export default class TipoSpesa {
-
   @PrimaryGeneratedColumn()
   private id!: number;
 
@@ -25,11 +24,10 @@ export default class TipoSpesa {
     this.descrizione = value;
   }
 
-  public static newTipoSpesa(obj: { id?: number, descrizione?: string }) {
+  public static newTipoSpesa(obj: { id?: number; descrizione?: string }) {
     const newDirector = new TipoSpesa();
     if (obj.id) newDirector.id = obj.id;
     if (obj.descrizione) newDirector.descrizione = obj.descrizione;
     return newDirector;
   }
-
 }
