@@ -10,7 +10,9 @@ export default class TipoSpesaRepository extends IRepository {
   }
 
   public async findTipoSpesaById(id: number): Promise<TipoSpesa> {
-    const result = await this.getTipoSpesaRepository().findOne(id);
+    const result = await this.getTipoSpesaRepository().findOne({
+      where: { id },
+    });
     if (!result) {
       throw new EntityNotFoundError("No tipoSpesa was found for ID: " + id);
     }

@@ -17,9 +17,14 @@ export default class AndamentoRepository extends IRepository {
   }
 
   public async findAndamentoById(id: number): Promise<Andamento> {
-    const result = await this.getAndamentoRepository().findOne(id, {
-      relations: ["tipoSpesa"],
-    });
+    const result = await this.getAndamentoRepository()
+      .findOne({
+        relations: ["tipoSpesa"],
+        where: { id },
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     if (!result) {
       throw new EntityNotFoundError();
     }
@@ -27,19 +32,25 @@ export default class AndamentoRepository extends IRepository {
   }
 
   public async saveAndamento(andamento: Andamento): Promise<Andamento> {
-    const tipoSpesa = await this.getTipoSpesaRepository().findOne(
-      andamento.$tipoSpesa.$id
-    );
+    const tipoSpesa = await this.getTipoSpesaRepository()
+      .findOne({
+        where: { id: andamento.tipoSpesa.id },
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     if (!tipoSpesa) {
       throw new BadRequestEntity(
-        "No tipoSpesa found for this ID: " + andamento.$tipoSpesa.$id
+        "No tipoSpesa found for this ID: " + andamento.tipoSpesa.id
       );
     }
     return this.getAndamentoRepository().save(andamento);
   }
 
   public async deleteAndamento(id: number): Promise<void> {
-    const andamento = await this.getAndamentoRepository().findOne(id);
+    const andamento = await this.getAndamentoRepository().findOne({
+      where: { id },
+    });
     if (!andamento) {
       throw new EntityNotFoundError("No andamento found with this ID");
     }

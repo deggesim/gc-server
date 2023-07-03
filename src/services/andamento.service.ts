@@ -18,7 +18,7 @@ export default class AndamentoService {
 
   public async update(andamento: Andamento): Promise<Andamento> {
     try {
-      await this.andamentoRepository.findAndamentoById(andamento.$id);
+      await this.andamentoRepository.findAndamentoById(andamento.id as number);
       return this.andamentoRepository.saveAndamento(andamento);
     } catch (e) {
       if (e instanceof EntityNotFoundError) {

@@ -28,9 +28,9 @@ export default class UtenteRepository extends IRepository {
   public async login(
     utenteInput: Utente
   ): Promise<{ utente: Utente; token: string }> {
-    const utente: Utente | undefined = await this.getUtenteRepository().findOne(
-      { email: utenteInput.email }
-    );
+    const utente: Utente = (await this.getUtenteRepository().findOne({
+      where: { email: utenteInput.email },
+    })) as Utente;
 
     if (!utente) {
       throw new EntityNotFoundError("Email o password errate");
@@ -72,7 +72,7 @@ export default class UtenteRepository extends IRepository {
   }
 
   public async delete(id: number): Promise<Utente> {
-    const utente = await this.getUtenteRepository().findOne({ id });
+    const utente = await this.getUtenteRepository().findOne({ where: { id } });
     if (!utente) {
       throw new EntityNotFoundError();
     }
@@ -83,7 +83,7 @@ export default class UtenteRepository extends IRepository {
   }
 
   public async find(id: number): Promise<Utente> {
-    const result = await this.getUtenteRepository().findOne({ id });
+    const result = await this.getUtenteRepository().findOne({ where: { id } });
     if (!result) {
       throw new EntityNotFoundError();
     }

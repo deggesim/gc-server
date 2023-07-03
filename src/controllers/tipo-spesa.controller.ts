@@ -12,7 +12,7 @@ export default class TipoSpesaController {
 
   public async findTipoSpesaById(ctx: IRouterContext) {
     try {
-      ctx.body = await this.tipoSpesaService.findById(ctx.params.id);
+      ctx.body = await this.tipoSpesaService.findById(+ctx.params.id);
     } catch (e) {
       ctx.throw(404);
     }

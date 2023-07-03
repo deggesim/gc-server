@@ -1,4 +1,4 @@
-import { getManager } from "typeorm";
+import { PostgresDataSource } from "../data-source";
 import Andamento from "../models/andamento";
 import TipoSpesa from "../models/tipo-spesa";
 import Token from "../models/token";
@@ -6,18 +6,18 @@ import Utente from "../models/utente";
 
 export default abstract class Repository {
   protected getTipoSpesaRepository() {
-    return getManager().getRepository(TipoSpesa);
+    return PostgresDataSource.manager.getRepository(TipoSpesa);
   }
 
   protected getAndamentoRepository() {
-    return getManager().getRepository(Andamento);
+    return PostgresDataSource.manager.getRepository(Andamento);
   }
 
   protected getUtenteRepository() {
-    return getManager().getRepository(Utente);
+    return PostgresDataSource.manager.getRepository(Utente);
   }
 
   protected getTokenRepository() {
-    return getManager().getRepository(Token);
+    return PostgresDataSource.manager.getRepository(Token);
   }
 }

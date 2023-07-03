@@ -13,7 +13,7 @@ export default class AndamentoController {
 
   public async findAndamentoById(ctx: IRouterContext) {
     try {
-      ctx.body = await this.andamentoService.findById(ctx.params.id);
+      ctx.body = await this.andamentoService.findById(+ctx.params.id);
     } catch (e) {
       ctx.throw(404);
     }
@@ -21,11 +21,7 @@ export default class AndamentoController {
 
   public async updateAndamento(ctx: IRouterContext) {
     try {
-      const andamento: Andamento = Andamento.newAndamento(ctx.request.body);
-      if (String(ctx.params.id) !== String(andamento.$id)) {
-        ctx.throw(400);
-      }
-      ctx.body = await this.andamentoService.update(andamento);
+      ctx.body = await this.andamentoService.update(ctx.request.body);
     } catch (e) {
       ctx.throw(400, (e as any).message);
     }
@@ -33,8 +29,7 @@ export default class AndamentoController {
 
   public async saveAndamento(ctx: IRouterContext) {
     try {
-      const andamento: Andamento = Andamento.newAndamento(ctx.request.body);
-      const result = await this.andamentoService.save(andamento);
+      const result = await this.andamentoService.save(ctx.request.body);
       ctx.body = result;
       ctx.status = 201;
     } catch (e) {
@@ -44,7 +39,7 @@ export default class AndamentoController {
 
   public async deleteAndamento(ctx: IRouterContext) {
     try {
-      await this.andamentoService.delete(ctx.params.id);
+      await this.andamentoService.delete(+ctx.params.id);
       ctx.status = 200;
     } catch (e) {
       ctx.throw(404, (e as any).message);
