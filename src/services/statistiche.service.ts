@@ -12,18 +12,18 @@ export default class StatisticheService {
   }
 
   public async spesa(interval: Interval): Promise<IStatistica> {
-    return this.andamentoRepository.spesa(interval);
+    return this.andamentoRepository.statistics(1, interval);
   }
 
   public async carburante(interval: Interval): Promise<IStatistica> {
-    return this.andamentoRepository.carburante(interval);
+    return this.andamentoRepository.statistics(2, interval);
   }
 
   public async bolletta(interval: Interval): Promise<IStatistica> {
-    return this.andamentoRepository.bolletta(interval);
+    return this.andamentoRepository.statistics(3, interval);
   }
 
   public async casa(interval: Interval): Promise<IStatistica> {
-    return this.andamentoRepository.casa(interval);
+    return this.andamentoRepository.statistics(7, interval);
   }
 }

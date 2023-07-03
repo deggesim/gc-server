@@ -84,143 +84,89 @@ export default class AndamentoRepository extends IRepository {
       `);
   }
 
-  public async spesa(interval: Interval): Promise<IStatistica> {
+  getQuery = (tipoSpesa: number, interval: Interval): string => {
     let query = "";
     switch (interval) {
       case Interval.mese:
-        query = `SELECT * FROM (
-          SELECT to_char(giorno, 'YYYYMM') as name, SUM(costo) AS value
-          FROM gc.andamento
-          WHERE tipo_spesa_id = 1
-          GROUP BY name
-          ORDER BY name DESC
-          LIMIT 48
-        ) rev
-        ORDER BY name`;
+        query = `
+        with filtered_andamento as (
+            select
+                *
+            from
+                gc.andamento
+            where
+                gc.andamento.tipo_spesa_id = ${tipoSpesa}),
+            months as (
+            select
+                generate_series(min_month, max_month, '1 month') as month
+            from
+                (
+                select
+                    date_trunc('year', min(giorno)) as min_month,
+                    date_trunc('month', max(giorno)) as max_month
+                from
+                    gc.andamento
+                ) s ) 
+            select
+                to_char(date_trunc('month', m.month), 'YYYYMM') as name,
+                coalesce(sum(costo), 0) as value
+            from
+                filtered_andamento
+            right join
+                months m on
+                date_trunc('month', filtered_andamento.giorno) = m.month
+            group by
+                m.month
+            order by
+                m.month desc
+            limit 48
+        `;
         break;
       case Interval.anno:
-        query = `SELECT * FROM (
-          SELECT to_char(giorno, 'YYYY') as name, SUM(costo) AS value
-          FROM gc.andamento
-          WHERE tipo_spesa_id = 1
-          GROUP BY name
-          ORDER BY name DESC
-        ) rev
-        ORDER BY name`;
-        break;
+        query = `
+        with filtered_andamento as (
+            select
+                *
+            from
+                gc.andamento
+            where
+                gc.andamento.tipo_spesa_id = ${tipoSpesa}),
+            years as (
+            select
+                generate_series(min_year, max_year, '1 year') as anno
+            from
+                (
+                select
+                    date_trunc('year', min(giorno)) as min_year,
+                    date_trunc('year', max(giorno)) as max_year
+                from
+                    gc.andamento
+                ) s ) 
+            select
+                to_char(date_trunc('year', y.anno), 'YYYY') as name,
+                coalesce(sum(costo), 0) as value
+            from
+                filtered_andamento
+            right join
+                years y on
+                date_trunc('year', filtered_andamento.giorno) = y.anno
+            group by
+                y.anno
+            order by
+                y.anno desc
+        `;
       default:
         break;
     }
-    return this.getAndamentoRepository().query(query);
-  }
+    return query;
+  };
 
-  public async carburante(interval: Interval): Promise<IStatistica> {
-    let query = "";
-    switch (interval) {
-      case Interval.mese:
-        query = `SELECT * FROM (
-          SELECT to_char(giorno, 'YYYYMM') as name, SUM(costo) AS value
-          FROM gc.andamento
-          WHERE tipo_spesa_id = 2
-          GROUP BY name
-          ORDER BY name DESC
-          LIMIT 48
-        ) rev
-        ORDER BY name`;
-        break;
-      case Interval.anno:
-        query = `SELECT * FROM (
-          SELECT to_char(giorno, 'YYYY') as name, SUM(costo) AS value
-          FROM gc.andamento
-          WHERE tipo_spesa_id = 2
-          GROUP BY name
-          ORDER BY name DESC
-        ) rev
-        ORDER BY name`;
-        break;
-      default:
-        break;
-    }
-    return this.getAndamentoRepository().query(query);
-  }
-
-  public async bolletta(interval: Interval): Promise<IStatistica> {
-    let query = "";
-    switch (interval) {
-      case Interval.mese:
-        query = `SELECT * FROM (
-          SELECT to_char(giorno, 'YYYYMM') as name, SUM(costo) AS value
-          FROM gc.andamento
-          WHERE tipo_spesa_id = 3
-          GROUP BY name
-          ORDER BY name DESC
-          LIMIT 48
-        ) rev
-        ORDER BY name`;
-        break;
-      case Interval.anno:
-        query = `SELECT * FROM (
-          SELECT to_char(giorno, 'YYYY') as name, SUM(costo) AS value
-          FROM gc.andamento
-          WHERE tipo_spesa_id = 3
-          GROUP BY name
-          ORDER BY name DESC
-        ) rev
-        ORDER BY name`;
-        break;
-      default:
-        break;
-    }
-    return this.getAndamentoRepository().query(query);
-  }
-
-  public async casa(interval: Interval): Promise<IStatistica> {
-    let query = "";
-    switch (interval) {
-      case Interval.mese:
-        query = `SELECT * FROM (
-          SELECT to_char(giorno, 'YYYYMM') as name, SUM(costo) AS value
-          FROM gc.andamento
-          WHERE tipo_spesa_id = 7
-          GROUP BY name
-          ORDER BY name DESC
-          LIMIT 48
-        ) rev
-        ORDER BY name`;
-        break;
-      case Interval.anno:
-        query = `SELECT * FROM (
-          SELECT to_char(giorno, 'YYYY') as name, SUM(costo) AS value
-          FROM gc.andamento
-          WHERE tipo_spesa_id = 7
-          GROUP BY name
-          ORDER BY name DESC
-        ) rev
-        ORDER BY name`;
-        break;
-      default:
-        break;
-    }
-    return this.getAndamentoRepository().query(query);
+  public async statistics(
+    tipoSpesa: number,
+    interval: Interval
+  ): Promise<IStatistica> {
+    return this.getAndamentoRepository().query(
+      this.getQuery(tipoSpesa, interval)
+    );
   }
 }
-
-/*
-with months as (
-select generate_series(min_month, max_month, '1 month') as month
-    from (
-        select
-            date_trunc('year', min(giorno)) as min_month,
-            date_trunc('year', max(giorno) + interval '1 year') - interval '1 month' as max_month
-        from gc.andamento
-    ) s ) 
-    select
-    to_char(date_trunc('month', m.month), 'YYYY Month') mon,
-    sum(costo) costo
-from
-    gc.andamento andamento
-    right join
-    months m on date_trunc('month', andamento.giorno) = m.month
-group by m.month
-order by m.month desc
-*/
