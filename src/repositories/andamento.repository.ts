@@ -95,7 +95,7 @@ export default class AndamentoRepository extends IRepository {
       `);
   }
 
-  getQuery = (tipoSpesa: number, interval: Interval): string => {
+  getQuery = (interval: Interval, tipoSpesa?: number): string => {
     let query = "";
     switch (interval) {
       case Interval.mese:
@@ -105,8 +105,9 @@ export default class AndamentoRepository extends IRepository {
                 *
             from
                 gc.andamento
-            where
-                gc.andamento.tipo_spesa_id = ${tipoSpesa}),
+            ${
+              tipoSpesa ? `where gc.andamento.tipo_spesa_id = ${tipoSpesa}` : ""
+            },
             months as (
             select
                 generate_series(min_month, max_month, '1 month') as month
@@ -173,11 +174,11 @@ export default class AndamentoRepository extends IRepository {
   };
 
   public async statistics(
-    tipoSpesa: number,
-    interval: Interval
+    interval: Interval,
+    tipoSpesa?: number
   ): Promise<IStatistica> {
     return this.getAndamentoRepository().query(
-      this.getQuery(tipoSpesa, interval)
+      this.getQuery(interval, tipoSpesa)
     );
   }
 }

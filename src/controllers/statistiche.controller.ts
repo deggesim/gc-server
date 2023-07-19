@@ -36,4 +36,10 @@ export default class StatisticheController {
       ctx.params.interval as Interval
     );
   }
+
+  public async tutte(ctx: IRouterContext) {
+    ctx.body = await this.statisticheService.tutte(
+      ctx.params.interval as Interval
+    );
+  }
 }
