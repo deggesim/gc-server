@@ -27,7 +27,7 @@ export default class StatisticheService {
     return this.andamentoRepository.statistics(interval, 7);
   }
 
-  public async tutte(interval: Interval): Promise<IStatistica> {
+  public async tutto(interval: Interval): Promise<IStatistica> {
     return this.andamentoRepository.statistics(interval);
   }
 }

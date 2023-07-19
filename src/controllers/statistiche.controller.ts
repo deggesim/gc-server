@@ -37,8 +37,8 @@ export default class StatisticheController {
     );
   }
 
-  public async tutte(ctx: IRouterContext) {
-    ctx.body = await this.statisticheService.tutte(
+  public async tutto(ctx: IRouterContext) {
+    ctx.body = await this.statisticheService.tutto(
       ctx.params.interval as Interval
     );
   }

@@ -107,7 +107,7 @@ export default class AndamentoRepository extends IRepository {
                 gc.andamento
             ${
               tipoSpesa ? `where gc.andamento.tipo_spesa_id = ${tipoSpesa}` : ""
-            },
+            }),
             months as (
             select
                 generate_series(min_month, max_month, '1 month') as month
@@ -141,8 +141,9 @@ export default class AndamentoRepository extends IRepository {
                 *
             from
                 gc.andamento
-            where
-                gc.andamento.tipo_spesa_id = ${tipoSpesa}),
+            ${
+              tipoSpesa ? `where gc.andamento.tipo_spesa_id = ${tipoSpesa}` : ""
+            }),
             years as (
             select
                 generate_series(min_year, max_year, '1 year') as anno
