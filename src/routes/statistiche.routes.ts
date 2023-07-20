@@ -36,6 +36,11 @@ export default class AndamentoRoutes extends IRoutes {
         "get",
         (ctx: IRouterContext) => this.statisticheController.casa(ctx)
       ),
+      Route.newRoute(
+        "/statistiche/tutto/:interval",
+        "get",
+        (ctx: IRouterContext) => this.statisticheController.tutto(ctx)
+      ),
     ];
   }
 }
