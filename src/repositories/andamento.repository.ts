@@ -105,8 +105,8 @@ export default class AndamentoRepository extends IRepository {
                 *
             from
                 gc.andamento
-            ${
-              tipoSpesa ? `where gc.andamento.tipo_spesa_id = ${tipoSpesa}` : ""
+            where gc.andamento.tipo_spesa_id ${
+              tipoSpesa ? ` = ${tipoSpesa}` : " in (1,3,7,9,10,13,16)"
             }),
             months as (
             select
@@ -141,8 +141,8 @@ export default class AndamentoRepository extends IRepository {
                 *
             from
                 gc.andamento
-            ${
-              tipoSpesa ? `where gc.andamento.tipo_spesa_id = ${tipoSpesa}` : ""
+            where gc.andamento.tipo_spesa_id ${
+              tipoSpesa ? ` = ${tipoSpesa}` : " in (1,3,7,9,10,13,16)"
             }),
             years as (
             select
