@@ -21,7 +21,9 @@ export default class AndamentoController {
 
   public async updateAndamento(ctx: IRouterContext) {
     try {
-      ctx.body = await this.andamentoService.update(ctx.request.body);
+      ctx.body = await this.andamentoService.update(
+        ctx.request.body as Andamento
+      );
     } catch (e) {
       ctx.throw(400, (e as any).message);
     }
@@ -29,7 +31,9 @@ export default class AndamentoController {
 
   public async saveAndamento(ctx: IRouterContext) {
     try {
-      const result = await this.andamentoService.save(ctx.request.body);
+      const result = await this.andamentoService.save(
+        ctx.request.body as Andamento
+      );
       ctx.body = result;
       ctx.status = 201;
     } catch (e) {
