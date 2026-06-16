@@ -4,6 +4,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Commands
 
+Use `pnpm` for installs (`pnpm install`) — `pnpm-lock.yaml` is the canonical lockfile; `package-lock.json` is stale/incidental.
+
 ```bash
 # Development (with hot reload)
 npm run start:dev     # uses config/dev.env
